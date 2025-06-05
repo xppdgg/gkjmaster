@@ -89,9 +89,9 @@ interface DataItem {
 }
 let dataSource = ref<DataItem[]>();
 const editableData: UnwrapRef<Record<string, DataItem>> = reactive({});
+
 onBeforeMount(() => {
   getData(0, pagination.pageSize)
-
 })
 
 const getData = async (offset: number, limit: number) => {
@@ -105,6 +105,8 @@ const getData = async (offset: number, limit: number) => {
   dataSource.value = data
   // console.log(6666,dataSource.value);
 }
+
+
 
 const add = () => {
   let key: string = Math.random() + 'new'

@@ -40,7 +40,7 @@
         
         </a-menu>
         <div style="position: absolute;top: 0;right: 0;">
-          <span style="color: aliceblue;margin-right: 10px;">当前用户：{{ userii.username?userii.username:'未登录' }}</span>
+         
           <a-button danger @click="handleClick">
            <template #icon><LoginOutlined /></template>
             退出系统
@@ -59,13 +59,10 @@
 <script lang="ts" setup>
 import { onBeforeMount, ref, watch } from 'vue';
 import MyTree from './MyTree.vue'
-import { addSql, doSql } from '../../api/axios/axios';
 import { RouterView, useRouter } from 'vue-router';
 import {DownOutlined, LoginOutlined, MailOutlined} from '@ant-design/icons-vue'
 import { userInfomation } from '../../store/userinfo';
-import { cluserRedata } from '../log/cluserrecord';
 import { SubMenu, message } from 'ant-design-vue';
-import moment from 'moment';
 const router = useRouter();
 const userii = userInfomation()
 let menukey = sessionStorage.getItem("menukey")?[sessionStorage.getItem("menukey")]:["0","01"]
@@ -149,32 +146,10 @@ watch(
   }
 )
 
-const handleClick = async()=>{
-    //向cluserrecord发送退出信息
-    cluserRedata.name = userii.uuidName
-    cluserRedata.company_id = userii.companyid
-    cluserRedata.logid = userii.userid
-    cluserRedata.int0 = 5; //登出
-    cluserRedata.str0 = userii.username
-    cluserRedata.uuid = userii.uuid
-    cluserRedata.clwkgroup_id = userii.clwkgroup_id 
-    cluserRedata.clwkline_id  = userii.clwkline_id 
-    cluserRedata.clwkdanyuan_id=userii.clwkdanyuan_id
-    cluserRedata.clwkstation_id=userii.clwkstation_id
-    cluserRedata.clwkmachine_id=userii.clwkmachine_id
-    cluserRedata.tm0 = moment().format('YYYY-MM-DD HH:mm:ss')
-    let logData: { [key: string]: any } = {}
-    for (let x in cluserRedata) {
-        if (cluserRedata[x] != null) {
-            logData[x] = cluserRedata[x]
-        }
-    }
-
-    let rs = await addSql("cluserrecord",0,10,logData)
-    if(rs.message=="success"){
-        router.push("/log")
-        message.success("退出成功") 
-    }
+const handleClick = ()=>{
+    // 直接重新加载页面，不需要登录
+    window.location.reload()
+    message.success("系统已刷新")
 }
 
 

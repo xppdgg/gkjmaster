@@ -1,8 +1,6 @@
 import { RouteRecordRaw, createRouter,createWebHistory } from "vue-router";
-import LogVue from "../pages/log/Log.vue";
 import HomeVue from "../pages/home/Home.vue";
 import testVue from "../pages/test.vue";
-import LogEnterVue from "../pages/log/LogEnter.vue";
 import MyTableVue from "../pages/home/MyTable.vue";
 import MyTreeVue from "../pages/home/MyTree.vue";
 import ProductReVue from "../pages/home/ProductRe.vue";
@@ -24,11 +22,6 @@ import bz1Vue from "../pages/home/bz1/bz1.vue";
 import stationVue from "../pages/home/station/station.vue";
 import groupVue from "../pages/home/group/group.vue";
 const routes:Array<RouteRecordRaw> = [
-    {
-        path:'/log',
-        name:'log',
-        component:LogVue,
-    },
     {
         path:'/home',
         name:'home',
@@ -138,11 +131,7 @@ const routes:Array<RouteRecordRaw> = [
         name:'test',
         component:testVue
     },
-    {
-        path:'/logEnter',
-        name:'logEnter',
-        component:LogEnterVue    
-    },
+
     {
         path:'/cldatasensor/:databaseName&:companyid&:roleid&:userid',
         name:'cldatasensor',
@@ -161,6 +150,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to)=>{
+    // 直接设置默认用户信息，不需要登录
     sessionStorage.setItem('userinfo',JSON.stringify({
         "uuid": 1,
         "uuidName": "轮播列表",
@@ -213,21 +203,10 @@ router.beforeEach((to)=>{
             "role": null
         }
     }))
-    const username:String = sessionStorage.getItem("user") as String
-    if(to.name=='cldataimage' || to.name=='cldatasensor'){        
-    }
-    else if (!username && to.path!='/log') {
-        return "/log"
-        return '/home'
-    }
+    
+    // 根路径重定向到首页
     if(to.path=='/'){
-        if(username){
-            return "/home"
-        }
-        else{
-            return "/log"
-        }
-        return '/home'
+        return "/home"
     }
 })
 

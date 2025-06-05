@@ -1,7 +1,6 @@
 <script setup lang='ts'>
 import axios from 'axios';
-import { addSql, doSql, login } from '../api/axios/axios';
-import { cluserRedata } from './log/cluserrecord';
+import { addSql, doSql } from '../api/axios/axios';
 import * as echarts from 'echarts';
 import 'echarts-gl'
 // import 'echarts-gl';
